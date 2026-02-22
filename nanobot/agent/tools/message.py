@@ -89,6 +89,18 @@ class MessageTool(Tool):
         if not self._send_callback:
             return "Error: Message sending not configured"
 
+        # Validate media files before sending
+        if media:
+            import os as _os
+            bad = []
+            for p in media:
+                if not _os.path.exists(p):
+                    bad.append(f"{p} (not found)")
+                elif _os.path.getsize(p) == 0:
+                    bad.append(f"{p} (empty, download likely failed)")
+            if bad:
+                return "Error: Cannot send media: " + "; ".join(bad) + ". Share the URL as text instead."
+
         msg = OutboundMessage(
             channel=channel,
             chat_id=chat_id,
