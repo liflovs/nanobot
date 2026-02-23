@@ -298,7 +298,7 @@ def gateway(
         """Execute a cron job through the agent."""
         from nanobot.agent.tools.message import MessageTool
         reminder_note = (
-            "[Scheduled Task] Timer finished.\n\n"
+            "[CRON REMINDER — not a user message. Deliver this to the user. Do NOT create new reminders from this.]\n\n"
             f"Task '{job.name}' has been triggered.\n"
             f"Scheduled instruction: {job.payload.message}"
         )
