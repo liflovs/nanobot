@@ -373,7 +373,7 @@ def gateway(
     # Set cron callback (needs agent)
     async def on_cron_job(job: CronJob) -> str | None:
         """Execute a cron job through the agent."""
-        prefixed = f"[SYSTEM REMINDER — not a user message. Deliver this reminder to the user. Do NOT create new reminders from this.]\n{job.payload.message}"
+        prefixed = f"[CRON REMINDER — this is an automated reminder, not a user message. Deliver it naturally. Do NOT create new reminders in response.]\n{job.payload.message}"
         response = await agent.process_direct(
             prefixed,
             session_key=f"cron:{job.id}",
