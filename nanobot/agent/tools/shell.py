@@ -81,6 +81,10 @@ class ExecTool(Tool):
         self, command: str, working_dir: str | None = None,
         timeout: int | None = None, **kwargs: Any,
     ) -> str:
+        # Unescape HTML entities that some LLMs inject into tool call args
+        import html
+        command = html.unescape(command)
+
         cwd = working_dir or self.working_dir or os.getcwd()
         guard_error = self._guard_command(command, cwd)
         if guard_error:

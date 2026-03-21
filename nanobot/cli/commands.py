@@ -535,6 +535,7 @@ def gateway(
         session_manager=session_manager,
         mcp_servers=config.tools.mcp_servers,
         channels_config=config.channels,
+        consolidation_model=config.agents.defaults.consolidation_model,
     )
 
     # Set cron callback (needs agent)
@@ -545,7 +546,7 @@ def gateway(
         from nanobot.utils.evaluator import evaluate_response
 
         reminder_note = (
-            "[Scheduled Task] Timer finished.\n\n"
+            "[CRON REMINDER — not a user message. Deliver this to the user. Do NOT create new reminders from this.]\n\n"
             f"Task '{job.name}' has been triggered.\n"
             f"Scheduled instruction: {job.payload.message}"
         )
@@ -735,6 +736,7 @@ def agent(
         restrict_to_workspace=config.tools.restrict_to_workspace,
         mcp_servers=config.tools.mcp_servers,
         channels_config=config.channels,
+        consolidation_model=config.agents.defaults.consolidation_model,
     )
 
     # Shared reference for progress callbacks

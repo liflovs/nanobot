@@ -39,6 +39,7 @@ class AgentDefaults(Base):
     context_window_tokens: int = 65_536
     temperature: float = 0.1
     max_tool_iterations: int = 40
+    consolidation_model: str | None = None  # Optional cheaper/faster model for memory consolidation
     reasoning_effort: str | None = None  # low / medium / high - enables LLM thinking mode
 
 
