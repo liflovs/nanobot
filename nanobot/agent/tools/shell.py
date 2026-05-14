@@ -41,7 +41,7 @@ class ExecToolConfig(Base):
     sandbox: str = ""
     allowed_env_keys: list[str] = Field(default_factory=list)
     allow_patterns: list[str] = Field(default_factory=list)
-    deny_patterns: list[str] = Field(default_factory=list)
+    deny_patterns: list[str] | None = None  # None = built-in defaults; explicit list (incl. []) replaces them
 
 
 @tool_parameters(
@@ -102,7 +102,10 @@ class ExecTool(Tool):
         self.timeout = timeout
         self.working_dir = working_dir
         self.sandbox = sandbox
-        self.deny_patterns = (deny_patterns or []) + [
+        # Caller-supplied deny_patterns REPLACE the built-in defaults rather
+        # than append to them. Pass `[]` to disable all denies; pass `None`
+        # (the default) to opt in to the built-in safety list below.
+        self.deny_patterns = deny_patterns if deny_patterns is not None else [
             r"\brm\s+-[rf]{1,2}\b",          # rm -r, rm -rf, rm -fr
             r"\bdel\s+/[fq]\b",              # del /f, del /q
             r"\brmdir\s+/s\b",               # rmdir /s
